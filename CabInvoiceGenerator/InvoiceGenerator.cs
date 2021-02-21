@@ -91,10 +91,10 @@ namespace Cab_Invoice_Generator
         /// <exception cref="CabInvoiceException">invalid user</exception>
         public InvoiceSummary CalculateFareForUser(string userID, Ride[] rides)
         {
-                if (userID == null || userID.Length == 0)
-                {
-                    throw new CabInvoiceException(CabInvoiceException.ExceptionType.INVALID_USER_ID, "invalid user");
-                }
+            if (userID == null || userID.Length == 0)
+            {
+                throw new CabInvoiceException(CabInvoiceException.ExceptionType.INVALID_USER_ID, "invalid user");
+            }
             var invoiceSummary = CalculateFare(rides);
             rideRepository.AddRides(userID, rides);
             return invoiceSummary;

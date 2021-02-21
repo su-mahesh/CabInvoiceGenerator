@@ -36,7 +36,6 @@ namespace Cab_Invoice_Generator
             {
                 return false;
             }
-
             InvoiceSummary invoiceSummary = (InvoiceSummary)obj;
             return numberOfRides == invoiceSummary.numberOfRides && totalFare == invoiceSummary.totalFare && averageFare == invoiceSummary.averageFare;
         }
