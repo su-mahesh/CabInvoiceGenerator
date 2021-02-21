@@ -39,7 +39,7 @@ namespace Cab_Invoice_Generator
             return Math.Max(totalFare, MINIMUM_FARE);
         }
 
-        public float CalculateFare(Ride[] rides)
+        public InvoiceSummary CalculateFare(Ride[] rides)
         {
             float totalFare = 0;
             try
@@ -56,7 +56,7 @@ namespace Cab_Invoice_Generator
                     throw new CabInvoiceException(CabInvoiceException.ExceptionType.NULL_RIDES, "invalid ride");
                 }
             }
-            return Math.Max(totalFare, MINIMUM_FARE);
+            return new InvoiceSummary(rides.Length, Math.Max(totalFare, MINIMUM_FARE));
         }
     }
 }
