@@ -14,7 +14,6 @@ namespace Cab_Invoice_Generator
         {
             this.numberOfRides = numberOfRides;
             this.totalFare = totalFare;
-            averageFare = this.totalFare / this.numberOfRides;
         }
 
         public override bool Equals(object obj)
@@ -29,7 +28,7 @@ namespace Cab_Invoice_Generator
             }
 
             InvoiceSummary invoiceSummary = (InvoiceSummary)obj;
-            return numberOfRides == invoiceSummary.numberOfRides && totalFare == invoiceSummary.totalFare && averageFare == invoiceSummary.averageFare;
+            return numberOfRides == invoiceSummary.numberOfRides && totalFare == invoiceSummary.totalFare;
         }
     }
 }

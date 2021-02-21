@@ -24,7 +24,6 @@ namespace CabInvoiceGeneratorNUnitTestProject
             Ride[] rides = { new Ride(2, 5), new Ride(2, 1) };
             InvoiceSummary result = invoiceGenerator.CalculateFare(rides);
             InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 46);
-
             Assert.AreEqual(expectedInvoiceSummary, result);
         }
     }
