@@ -11,15 +11,37 @@ namespace Cab_Invoice_Generator
         private readonly float MINIMUM_COST_PER_KM;
         private readonly float COST_PER_TIME;
         private readonly float MINIMUM_FARE;
-
-        public InvoiceGenerator(float MINIMUM_COST_PER_KM, float COST_PER_TIME, float MINIMUM_FARE)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InvoiceGenerator"/> class.
+        /// </summary>
+        /// <param name="rideType">Type of the ride.</param>
+        public InvoiceGenerator(RideType rideType)
         {
             rideRepository = new RideRepository();
-            this.MINIMUM_COST_PER_KM = MINIMUM_COST_PER_KM;
-            this.COST_PER_TIME = COST_PER_TIME;
-            this.MINIMUM_FARE = MINIMUM_FARE;
+            if (rideType == RideType.NORMAL)
+            {
+                MINIMUM_COST_PER_KM = RideRate.NORMAL_MINIMUM_COST_PER_KM;
+                COST_PER_TIME = COST_PER_TIME = RideRate.NORMAL_COST_PER_TIME;
+                MINIMUM_FARE = MINIMUM_FARE = RideRate.NORMAL_MINIMUM_FARE;
+            }
+            else
+            {
+                MINIMUM_COST_PER_KM = RideRate.PREMIUM_MINIMUM_COST_PER_KM;
+                COST_PER_TIME = COST_PER_TIME = RideRate.PREMIUM_COST_PER_TIME;
+                MINIMUM_FARE = MINIMUM_FARE = RideRate.PREMIUM_MINIMUM_FARE;
+            }
         }
-
+        /// <summary>
+        /// Calculates the fare.
+        /// </summary>
+        /// <param name="distance">The distance.</param>
+        /// <param name="time">The time.</param>
+        /// <returns></returns>
+        /// <exception cref="CabInvoiceException">
+        /// invalid distance
+        /// or
+        /// invalid time
+        /// </exception>
         public float CalculateFare(float distance, float time)
         {
             float totalFare = 0;
@@ -60,6 +82,13 @@ namespace Cab_Invoice_Generator
             }
             return new InvoiceSummary(rides.Length, Math.Max(totalFare, MINIMUM_FARE));
         }
+        /// <summary>
+        /// Calculates the fare for user.
+        /// </summary>
+        /// <param name="userID">The user identifier.</param>
+        /// <param name="rides">The rides.</param>
+        /// <returns></returns>
+        /// <exception cref="CabInvoiceException">invalid user</exception>
         public InvoiceSummary CalculateFareForUser(string userID, Ride[] rides)
         {
                 if (userID == null || userID.Length == 0)
@@ -70,7 +99,11 @@ namespace Cab_Invoice_Generator
             rideRepository.AddRides(userID, rides);
             return invoiceSummary;
         }
-
+        /// <summary>
+        /// Gets the rides.
+        /// </summary>
+        /// <param name="userID">The user identifier.</param>
+        /// <returns></returns>
         public Ride[] GetRides(string userID)
         {
             return rideRepository.GetRides(userID);
