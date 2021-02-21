@@ -38,5 +38,25 @@ namespace Cab_Invoice_Generator
             }
             return Math.Max(totalFare, MINIMUM_FARE);
         }
+
+        public float CalculateFare(Ride[] rides)
+        {
+            float totalFare = 0;
+            try
+            {
+                foreach (var ride in rides)
+                {
+                    totalFare += CalculateFare(ride.distance, ride.time);
+                }                
+            }
+            catch (CabInvoiceException)
+            {
+                if (rides == null)
+                {
+                    throw new CabInvoiceException(CabInvoiceException.ExceptionType.NULL_RIDES, "invalid ride");
+                }
+            }
+            return Math.Max(totalFare, MINIMUM_FARE);
+        }
     }
 }
