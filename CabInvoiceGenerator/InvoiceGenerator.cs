@@ -3,7 +3,8 @@
 namespace Cab_Invoice_Generator
 {
     public class InvoiceGenerator
-    {
+    {           
+        public RideRepository rideRepository;
         /// <summary>
         /// constatants
         /// </summary>
@@ -13,6 +14,7 @@ namespace Cab_Invoice_Generator
 
         public InvoiceGenerator(float MINIMUM_COST_PER_KM, float COST_PER_TIME, float MINIMUM_FARE)
         {
+            rideRepository = new RideRepository();
             this.MINIMUM_COST_PER_KM = MINIMUM_COST_PER_KM;
             this.COST_PER_TIME = COST_PER_TIME;
             this.MINIMUM_FARE = MINIMUM_FARE;
@@ -47,7 +49,7 @@ namespace Cab_Invoice_Generator
                 foreach (var ride in rides)
                 {
                     totalFare += CalculateFare(ride.distance, ride.time);
-                }                
+                }
             }
             catch (CabInvoiceException)
             {
@@ -57,6 +59,21 @@ namespace Cab_Invoice_Generator
                 }
             }
             return new InvoiceSummary(rides.Length, Math.Max(totalFare, MINIMUM_FARE));
+        }
+        public InvoiceSummary CalculateFareForUser(string userID, Ride[] rides)
+        {
+                if (userID == null || userID.Length == 0)
+                {
+                    throw new CabInvoiceException(CabInvoiceException.ExceptionType.INVALID_USER_ID, "invalid user");
+                }
+            var invoiceSummary = CalculateFare(rides);
+            rideRepository.AddRides(userID, rides);
+            return invoiceSummary;
+        }
+
+        public Ride[] GetRides(string userID)
+        {
+            return rideRepository.GetRides(userID);
         }
     }
 }

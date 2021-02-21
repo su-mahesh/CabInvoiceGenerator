@@ -14,7 +14,8 @@ namespace Cab_Invoice_Generator
         { 
             INVALID_DISTANCE,
             INVALID_TIME,
-            NULL_RIDES
+            NULL_RIDES,
+            INVALID_USER_ID,
         }
         /// <summary>
         /// The exception type

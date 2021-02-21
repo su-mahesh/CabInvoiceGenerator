@@ -36,5 +36,18 @@ namespace CabInvoiceGeneratorNUnitTestProject
             InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 46);
             Assert.AreEqual(expectedInvoiceSummary, result);
         }
+
+        [Test]
+        public void GivenUserID_ShouldReturnRideRepository()
+        {
+            invoiceGenerator = new InvoiceGenerator(10, 1, 5);
+            Ride[] rides = { new Ride(2, 5), new Ride(2, 1) };
+            string userID = new User().CreateNewUser();
+            InvoiceSummary result = invoiceGenerator.CalculateFareForUser(userID, rides);
+            InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 46);
+            Ride[] expectedRides = invoiceGenerator.GetRides(userID);
+            Assert.AreEqual(expectedInvoiceSummary, result);
+            Assert.AreEqual(expectedRides, rides);
+        }
     }
 }
