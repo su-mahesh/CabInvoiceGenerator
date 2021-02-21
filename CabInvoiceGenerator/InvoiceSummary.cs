@@ -6,14 +6,15 @@ namespace Cab_Invoice_Generator
 {
     public class InvoiceSummary
     {
-        private int numberOfRides;
-        private float totalFare;
-        private double averageFare;
+        private readonly int numberOfRides;
+        private readonly float totalFare;
+        private readonly double averageFare;
 
         public InvoiceSummary(int numberOfRides, float totalFare)
         {
             this.numberOfRides = numberOfRides;
             this.totalFare = totalFare;
+            averageFare = this.totalFare / this.numberOfRides;
         }
 
         public override bool Equals(object obj)
@@ -28,7 +29,7 @@ namespace Cab_Invoice_Generator
             }
 
             InvoiceSummary invoiceSummary = (InvoiceSummary)obj;
-            return numberOfRides == invoiceSummary.numberOfRides && totalFare == invoiceSummary.totalFare;
+            return numberOfRides == invoiceSummary.numberOfRides && totalFare == invoiceSummary.totalFare && averageFare == invoiceSummary.averageFare;
         }
     }
 }
